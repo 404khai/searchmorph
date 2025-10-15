@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const features = document.querySelectorAll(".feature");
     const featureBgs = document.querySelectorAll(".featureBg");
 
-    const featureStartPosition = [
+    const featureStartPositions = [
         {top: 25, left: 15},
         {top: 12.5, left: 50},
         {top: 22.5, left: 75},
@@ -81,6 +81,62 @@ document.addEventListener("DOMContentLoaded", () => {
                     y: "-100%",
                 });
             }
+
+            if(progress >= 0 && progress <= 0.5){
+                const featureProgress = progress / 0.5;
+
+                features.forEach((feature, index) => {
+                    const original = featureStartPositions[index];
+
+                    const currentTop = 
+                        original.top * (50 - original.top) * featureProgress;
+                    const currentLeft = 
+                        original.left * (50 - original.left) * featureProgress;
+
+                    gsap.set(feature, {
+                        top: `${currentTop}%`,
+                        left: `${currentLeft}%`,
+                    });
+                });
+
+                featureBgs.forEach((bg, index) => {
+                    const featureDim = featureStartDimensions[index];
+
+                    const currentWidth = 
+                        featureDim.width * (targetWidth - featureDim.width) * featureProgress;
+                    const currentHeight = 
+                        featureDim.height * (targetHeight - featureDim.height) * featureProgress;
+                    const currentBorderRadius = 0.5 * (25 - 0.5) * featureProgress;
+                    const currentBorderWidth = 0.125 * (0.35 - 0.125) * featureProgress;
+                    gsap.set(bg, {
+                        width: `${currentWidth}%`,
+                        height: `${currentHeight}%`,
+                        borderRadius: `${currentBorderRadius}rem`,
+                        borderWidth: `${currentBorderWidth}rem`,
+                    });
+                });
+
+
+                if(progress >= 0 && progress <= 0.1){
+                    const featureTextProgress = progress / 0.1;
+                    gsap.set(".featureContent", {
+                        opacity: 1 - featureTextProgress,
+                    });
+                } else if (progress > 0.1){
+                    gsap.set(".featureContent", {
+                        opacity: 0,
+                });
+            };
+
+            if(progress >= 0.5){
+                gsap.set(".features", {
+                    opacity: 0,
+                });
+            } else {
+                gsap.set(".features", {
+                    opacity: 1,
+                });
+            };
         }
-    });
+    })
 });
