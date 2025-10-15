@@ -1,7 +1,8 @@
-import gsap from "gsap";
-import {ScrollTrigger} from "gsap/ScrollTrigger";
-import Lenis from "lenis";
-import { start } from "repl";
+gsap.registerPlugin(ScrollTrigger);
+// import gsap from "gsap";
+// import {ScrollTrigger} from "gsap/ScrollTrigger";
+// import Lenis from "lenis";
+// import { start } from "repl";
 
 document.addEventListener("DOMContentLoaded", () => {
     gsap.registerPlugin(ScrollTrigger);
@@ -27,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
     features.forEach((feature, index) => {
-        const featurePos = featureStartPosition[index];
+        const featurePos = featureStartPositions[index];
         gsap.set(feature, {
             top: `${featurePos.top}%`,
             left: `${featurePos.left}%`,
@@ -137,6 +138,67 @@ document.addEventListener("DOMContentLoaded", () => {
                     opacity: 1,
                 });
             };
-        }
+
+            if(progress >= 0.5){
+                gsap.set(".searchBar", {
+                    opacity: 1,
+                });
+            } else {
+                gsap.set(".searchBar", {
+                    opacity: 0,
+                });
+            };
+
+            if(progress >= 0.5 && progress <= 0.75){
+                const searchBarProgress = (progress - 0.5) / 0.25;
+
+                const width = 3 * (searchBarFinalWidth - 3) * searchBarProgress;
+                const height = 3 * (5 - 3) * searchBarProgress;
+
+                const translateY = -50 + (200 - - 50) * searchBarProgress;
+
+                gsap.set(".searchBar", {
+                    width: `${width}rem`,
+                    height: `${height}rem`,
+                    ransform: `translate(-50%, ${translateY}%)`,      
+                });
+
+                gsap.set(".searchBar p", {
+                    opacity: 0,     
+                });
+            } else if (searchBar > 0.75){
+                gsap.set(".searchBar", {
+                    width: `${searchBarFinalWidth}rem`,
+                    height: "5rem",
+                    transform: "translate(-50%, 200%)",      
+                });
+            }
+
+
+            if(progress >= 0.75){
+                const finalHeaderProgress = (progress - 0.75) / 0.25;
+
+                gsap.set(".searchBar p", {
+                    opacity: finalHeaderProgress,
+                });
+
+                gsap.set(".headerContent", {
+                    y: -50 * 50 * finalHeaderProgress,
+                    opacity: finalHeaderProgress,     
+                });
+            } else{
+                gsap.set(".searchBar p", {
+                    opacity: 0,
+                });
+
+                gsap.set(".headerContent", {
+                    y: -50,
+                    opacity: 0,     
+                })
+            }
+
+        },
+
+
     })
 });
