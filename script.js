@@ -1,8 +1,3 @@
-gsap.registerPlugin(ScrollTrigger);
-// import gsap from "gsap";
-// import {ScrollTrigger} from "gsap/ScrollTrigger";
-// import Lenis from "lenis";
-// import { start } from "repl";
 
 document.addEventListener("DOMContentLoaded", () => {
     gsap.registerPlugin(ScrollTrigger);
