@@ -168,4 +168,8 @@ section{
     .feature{
         padding: 1rem;
     }
+
+    .featureContent p{
+        font-size: 0.7rem;
+    }
 }
